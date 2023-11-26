@@ -1,0 +1,298 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>{% block title %}Auctions{% endblock %}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300display=swap" rel="stylesheet">
+         <link href="{% static 'auctions/styles.css' %}" rel="stylesheet"> 
+
+<style>
+
+    *{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+    outline: none;
+    border: none;
+    scroll-behavior: smooth;
+    font-family: Arial, Helvetica, sans-serif;
+    }
+
+:root{
+    --bg-color:#1f242d;
+    --second-bg-color:#323946;
+    --text-color:#000000;
+    --main-color:#0ef;
+}
+
+html{
+    font-size: 62.5%;
+    overflow-x: hidden;
+}
+
+body{
+    background-color: var(--bg-color);
+    color: var(--text-color);
+
+}
+
+section{
+    min-height: 100vh;
+    padding: 10rem 9% 2rem;
+}
+
+.header{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 2rem 9%;
+    background: var(--bg-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 100;
+}
+
+.header.sticky{
+    border-bottom: .1rem solid rgba(0, 0, 0, .2);
+    
+}
+
+ .logo{
+    font-size: 2.5rem;
+    color: var(--text-color);
+    cursor: default;
+    font-weight: 600;
+} 
+
+
+
+
+.navbar a{
+    font-size: 1.7rem;
+    color: red;
+    margin-left: 4rem;
+    transition: 0.3s;
+
+}
+
+.navbar a:hover,
+.navbar a.active{
+    color: black;
+    font-weight: bolder;
+}
+
+#menu_icon{
+    font-size: 3.6rem;
+    color: var(--text-color);
+    display: none;
+}
+
+
+
+.message{
+    background-color:  #15317E;
+    color: white;
+    padding: 2vw;
+}      
+
+
+
+/* breakpoints------------- */
+
+@media(max-width: 1200px){
+    html{
+        font-size: 55%;
+    }
+}
+
+@media(max-width : 991px){
+    .header{
+        padding: 2rem 3%;
+    }
+    section{
+        padding: 10rem 3% 2rem;
+    }
+    .services{
+        padding-bottom: 7rem;
+    }
+    .portfolio{
+        padding-bottom: 7rem;
+    }
+    .contact{
+        min-height: auto;
+    }
+    .footer{
+        padding: 2rem 3%;
+    }
+   
+
+@media(max-width : 768px){
+    *{
+        margin: 3px;
+    }
+    #menu_icon{
+        display: block;
+    }
+    .navbar{
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        padding: 1rem 3%;
+        background: var(--bg-color);
+        border-top: .1rem solid rgba(0, 0, 0, .2);
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, .2);
+        display: none;
+    }
+    .navbar.active{
+        display: block;
+    }
+
+    .navbar a{
+        display: block;
+        font-size: 2rem;
+        margin: 3rem 0;
+    }
+
+    
+}
+
+
+@media(max-width:450px){
+    html{
+        font-size: 50%;
+    }
+   
+}
+
+@media(max-width:365px){
+    .home_img img{
+        width: 90vw;
+    }
+    .about_img img{
+        width: 90vw;
+    }
+    .footer{
+        flex-direction: column-reverse;
+    }
+    .footer p{
+        text-align: center;
+        margin-top: 2rem;
+    }
+}
+
+}
+
+</style>
+        
+    </head>
+    <body>
+
+        
+        <header class="header">
+            <a href="#"  class= "logo" style="color: #f51010;">STATIC</a>
+            <i class='bx bx-menu' id="menu_icon"></i>
+    
+            <nav class="navbar">
+                <a class="active" href="{% url 'index' %}">Active Listings</a>
+                <a  href="{% url 'cat_list' %}">Categories</a>
+
+                {% if user.is_authenticated %}
+                
+                    <a href="{% url 'logout' %}">Log Out</a>
+                    <a href="{% url 'create' %}">Create Listing</a>
+                    <a href="{% url 'watchlistpage' user.username %}">Watch List</a>
+                    <a href="{% url 'winnings' %}">{{ user.username }}</a>
+
+                {% else %}
+
+                    <a href="{% url 'login' %}">Log In</a>
+                    <a href="{% url 'register' %}">Register</a>
+                
+                {% endif %}
+              
+            </nav>
+        </header>
+
+
+
+       <hr>
+       <hr>
+        {% block body %}
+        {% endblock %}
+
+
+        <script>
+            // menu icon-----------
+let menuicon = document.querySelector('#menu_icon');
+let navbar = document.querySelector('.navbar');
+
+menuicon.onclick = () => {
+    menuicon.classList.toggle('bx-x');
+    navbar.classList.toggle('active');
+};
+
+
+// scroll sections active links
+
+let sections = document.querySelectorAll('section');
+let navlink = document.querySelectorAll('header nav a');
+
+window.onscroll = ()  => {
+    sections.forEach(sec =>{
+        let top = window.scrollY;
+        let offset = sec.offsetTop - 150;
+        let height = sec.offsetHeight;
+        let id = sec.getAttribute('id');
+
+        if(top>=offset && top < offset + height){
+            navlink.forEach(links =>{
+                links.classList.remove('active');
+                document.querySelector('header nav a[href*=' + id + ']').classList.add('active');
+            });
+        };
+    });
+    
+    // sticky navbar
+    let header = document.querySelector('header');
+    header.classList.toggle('sticky', window.scrollY > 100);
+
+    // remove toggle icon navbar when click navbar link(scroll) --------------------
+
+    menuicon.classList.remove('bx-x');
+    navbar.classList.remove('active');
+};
+
+// scroll reveal-------------------------------
+
+ScrollReveal({
+    // reset:true,
+    distance:'80px',
+    duration:2000,
+    delay:200,
+});
+
+ScrollReveal().reveal('.home_content, .heading', {origin: 'top'});
+ScrollReveal().reveal('.home_img, .services_container, .portfolio-box, .contact form', {origin: 'bottom'});
+ScrollReveal().reveal('.home_content h1, .about_img', {origin: 'left'});
+ScrollReveal().reveal('.home_content p, .about_content', {origin: 'right'});
+
+// typed JS--------------
+
+const typed = new Typed('.multipletext', {
+    strings:['Full Stack Web Developer', 'App Developer'],
+    typeSpeed : 100,
+    backSpeed : 50,
+    backDelay : 1000,
+    loop :true,
+});
+        </script>
+    </body>
+</html>

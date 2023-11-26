@@ -1,0 +1,166 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+
+<div class="container">
+
+<div class="list">
+
+
+    <a class="title">{{list.title}}</a><br>
+        <a class= "cat">{{list.category}}</a>
+        {% if messages %}
+        {% for message in messages %}
+            <div class="message">{{ message }}</div>
+        {% endfor %}
+        {% endif %}
+
+
+    <div class="activelist" id="activelist">
+        <div id = "productinfo" class="product">
+        {% if list.image_url %}
+        
+        <div class="image"></div>
+            <img src="{{ list.image_url }}" class="list_img">
+        </div>
+
+        {% else %}
+            <div class="image">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/No_image_3x4.svg/1024px-No_image_3x4.svg.png" alt="No image Provided" class="list_img">
+            </div>
+            {% endif %}
+
+        <p class="desc">{{ list.desc }}</p>
+        <div class = "start_bid"><a><a class="c_price">Present Bid: </a> {{ present_bid}} $ </div>
+        <div class = "start_bid"><a><a class="c_price">Listed By: </a> {{ list.user }}</div>
+        
+        {% if list.user != user.username %}
+        <form method="get" action = "{% url 'bid' %}">
+        <input class="bidamnt" name= "bid_amnt" placeholder = "Bid Amount" type = "number">
+        <button class="btn btn-outline-primary" type = "submit" name = "list_d" value = {{ list.id }}>Bid Item</button>
+        </form>
+        
+        <div class="bid_amnt">
+        <form method= "get" action = "{% url 'addwatchlist' %}">
+        <button class="btn btn-outline-primary" type = "submit" value = {{ list.id }} name = "listid" >Add to Watchlist</button>
+        </form>
+        </div>
+    </div>
+        {% endif %}
+
+        
+        <div class= "closebid">
+        {% if list.user == user.username %}
+        <form method= "get" action = "{% url 'win_ner' %}">
+        <button class="btn btn-outline-primary" type = "submit" value = {{ list.id }} name = "listid" >Close Bid</button>
+        </form>
+        {% endif %}
+
+        {% if user.username == 'hannan_siddiqui' %}
+        <form method= "get" action = "{% url 'win_ner' %}">
+        <button class="btn btn-outline-primary" type = "submit" value = {{ list.id }} name = "listid" >Close Bid</button>
+        </form>
+        {% endif %}
+        </div>
+        </div>
+
+
+    </div>
+</div>  
+</div>  
+
+<style>
+
+/* 
+
+.list{
+    background-color: darkgrey;
+    color: rgb(242, 0, 0);
+    font-weight: bold;
+    font-size: larger;
+    margin: 10%;
+   
+} */
+
+
+.bidamnt{
+    height: 40px;
+}
+:placeholder-shown{
+    color: red;
+    font-weight: bolder;
+}
+.closebid{
+    padding: 1vw;
+}
+
+body{
+    background-color: rgb(83, 91, 88);
+}
+#activelist{
+    
+    margin-top: 4vw;
+    grid-gap: 2vw;
+    display:grid;
+    width: 80%;
+    /* margin-left: 8%; */
+    grid-template-rows: repeat(auto,1fr);
+    grid-template-columns: 1fr 0.5fr;
+    font-family: 'Nunito', sans-serif;
+}
+
+p{
+    margin-top: 1vw;
+    font-size: 1.5rem;
+    font-weight: bolder;
+}
+
+
+.bid_amnt{
+    padding: 1vw;
+}
+
+h3{
+    padding-top: 2vw;
+}
+
+
+
+img{
+        width: 100%;
+      
+    }
+
+
+.title{
+
+    font-size: 2vw;
+    font-weight: bold;
+
+}
+.c_price{
+    
+    font-weight: bold;
+
+}
+
+.comment{
+   align-items : left;
+}
+
+/* .start_bid{
+
+    padding-bottom: 1vw;
+
+} */
+
+
+/* .image{
+    width: 200px;
+    height: 300px;
+} */
+
+</style>
+{% endblock %}
+
+

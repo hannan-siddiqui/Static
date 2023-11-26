@@ -1,0 +1,111 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+
+
+
+<div class"pagelogin">
+    <div class"page">
+    <h2>Login</h2>
+
+    {% if message %}
+        <div>{{ message }}</div>
+    {% endif %}
+
+    <form action="{% url 'login' %}" method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <input autofocus class="form-control" type="text" name="username" placeholder="Username">
+        </div>
+        <div class="form-group">
+            <input class="form-control" type="password" name="password" placeholder="Password">
+        </div>
+        <input class="btn btn-primary" type="submit" value="Login">
+    </form>
+
+    <h3>Don't have an account? <a href="{% url 'register' %}">Register here.</a></h3>
+</div>
+
+</div>
+
+<style>
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: aquamarine;
+        }
+    
+        .pagelogin{
+            position:absolute;
+            margin:20%;
+            
+            
+        }
+        h3{
+            color:red;
+            /* /* margin-left:25vw; */
+            margin-top:20px;
+        }
+        .page{
+            position:relative;
+            top: 20%;
+            left:25%;
+        }
+        form {
+            /* position:relative;
+            top: 20%;
+            left:25%; */
+            font-size:7rem;
+            /* margin-top:20vh; */
+        
+            width: 300px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+    
+        .form-group {
+            margin-bottom: 20px;
+        }
+    
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+    
+        .btn-primary {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+    
+        a {
+            text-decoration: none;
+            color: #007bff;
+        }
+    
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</style>
+
+{% endblock %}
